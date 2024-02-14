@@ -3,39 +3,89 @@ import '@astrojs/tailwind/base.css'
 import '../assets/scss/globals.scss'
 import SiteMeta from '../components/SiteMeta.astro'
 import ConsoleFiglet from '../components/ConsoleFiglet.astro'
+import ModalDialog from '../components/ModalDialog.astro'
 
 const {
   title = 'Astro',
   description = 'A starter project with accessibility features using Astro static site builder. Contains accessible landmarks, skip links, a dark mode color scheme, better focus outline and keyboard menu navigation.',
-  url,
+  url = 'https://markteekman.github.io/multi-step-form/',
   image = '/social-preview-image.png',
   author = 'Mark Teekman',
 } = Astro.props
 ---
 
-<html lang="en" dir="ltr">
+<html
+  lang="en"
+  dir="ltr"
+>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="ie=edge"
+    />
 
     <!-- favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="multi-step-form/favicon.svg"
+    />
 
     <SiteMeta
       title={title}
       description={description.substring(0, 100)}
-      url={Astro.site
-        ? `${Astro.site}/${title.toLowerCase().replaceAll(' ', '-')}`
-        : `https://accessible-astro.dev/${title.toLowerCase().replaceAll(' ', '-')}`}
+      url={url}
       image={image}
       author={author}
     />
+
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+        min-block-size: 100vh;
+
+        @media (max-width: 48rem) {
+          display: block;
+        }
+      }
+
+      .wrapper {
+        width: 100%;
+      }
+    </style>
   </head>
-  <body>
-    <main id="main-content" transition:animate="fade">
-      <slot />
-    </main>
+
+  <body style="background-color: var(--neutral-magnolia);">
+    <div class="wrapper">
+      <main
+        id="main-content"
+        class="relative grid place-items-center"
+        transition:animate="fade"
+      >
+        <slot />
+      </main>
+      <footer class="px-8 py-4 text-center text-sm">
+        Challenge by <a href="https://www.frontendmentor.io/?ref=challenge">Frontend Mentor</a>. Coded by <a
+          href="https://markteekman.nl">Mark Teekman</a
+        >. <button
+          id="modal-trigger"
+          class="border-none p-0 underline hover:no-underline"
+          >Accessibility notice</button
+        >.
+      </footer>
+    </div>
+    <ModalDialog
+      triggerId="modal-trigger"
+      title="Modal 1"
+    >
+      <p>Why hello, I be the <strong>first</strong> Modal.</p>
+    </ModalDialog>
     <ConsoleFiglet />
   </body>
 </html>
