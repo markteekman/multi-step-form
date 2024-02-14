@@ -119,13 +119,14 @@ const handlePreviousStep = () => {
           description="Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com."
           :last-step="true"
         >
+          <button @click="store.$patch({ currentStep: 1 })">Reset form</button>
         </FormStep>
       </template>
     </div>
     <div class="buttons">
       <FormButton
         variant="secondary"
-        v-if="store.currentStep > 1"
+        v-if="store.currentStep > 1 && store.currentStep <= store.totalSteps"
         @click="handlePreviousStep"
       >
         Go back

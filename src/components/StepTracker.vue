@@ -38,7 +38,7 @@ store.$patch({ totalSteps: steps.length })
   padding: var(--space-l) var(--space-s);
   color: var(--neutral-white);
   background-color: var(--primary-purplish-blue);
-  background-image: url('multi-step-form/bg-sidebar-desktop.svg');
+  background-image: url('/multi-step-form/bg-sidebar-desktop.svg');
   background-size: cover;
   border-radius: var(--radius-m);
 
@@ -50,7 +50,7 @@ store.$patch({ totalSteps: steps.length })
     inset-block-start: 0;
     inset-inline: 0;
     block-size: var(--step-tracker-offset);
-    background-image: url('multi-step-form/bg-sidebar-mobile.svg');
+    background-image: url('/multi-step-form/bg-sidebar-mobile.svg');
     border-radius: 0;
     z-index: -1;
   }

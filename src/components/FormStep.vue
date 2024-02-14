@@ -25,7 +25,7 @@ const props = defineProps({
     </template>
     <div v-else>
       <img
-        :src="`src/assets/img/icon-thank-you.svg`"
+        :src="`/multi-step-form/icon-thank-you.svg`"
         alt=""
       />
       <h2>{{ title }}</h2>

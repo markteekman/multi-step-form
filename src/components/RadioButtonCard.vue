@@ -68,7 +68,7 @@ const props = defineProps({
     <span class="sr-only">{{ description }}</span>
     <span class="radio-card__details">
       <img
-        :src="`src/assets/img/icon-${icon}.svg`"
+        :src="`/multi-step-form/icon-${icon}.svg`"
         alt=""
       />
       <span class="radio-card__content">
