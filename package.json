@@ -29,6 +29,8 @@
     "tailwindcss": "^3.2.7"
   },
   "dependencies": {
-    "@astrojs/vue": "^4.0.7"
+    "@astrojs/vue": "^4.0.8",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.18"
   }
 }

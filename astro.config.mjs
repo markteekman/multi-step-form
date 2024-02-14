@@ -7,7 +7,7 @@ import vue from '@astrojs/vue'
 export default defineConfig({
   compressHTML: true,
   integrations: [
-    vue(),
+    vue({ appEntrypoint: '/src/pages/_app' }),
     tailwind({
       applyBaseStyles: false,
     }),
