@@ -1,13 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useFormStore } from '../stores/form'
 
+const store = useFormStore()
 const isPressed = ref(false)
 const currentValue = ref('Monthly')
 
 const toggleIsPressed = () => {
   isPressed.value = !isPressed.value
   isPressed.value ? (currentValue.value = 'Yearly') : (currentValue.value = 'Monthly')
+  store.toggleBillingCycle()
 }
+
+onMounted(() => {
+  isPressed.value = store.billingCycle === 'yearly'
+  isPressed.value ? (currentValue.value = 'Yearly') : (currentValue.value = 'Monthly')
+})
 </script>
 
 <template>
