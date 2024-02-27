@@ -1,4 +1,7 @@
 <script setup>
+import { ref, nextTick } from 'vue'
+import { useFormStore } from '../stores/form'
+import { useValidation } from '../composables/validation'
 import CheckboxCard from './CheckboxCard.vue'
 import FormButton from './FormButton.vue'
 import FormErrors from './FormErrors.vue'
@@ -7,11 +10,36 @@ import FormSummary from './FormSummary.vue'
 import InputField from './InputField.vue'
 import RadioButtonCard from './RadioButtonCard.vue'
 import ToggleButton from './ToggleButton.vue'
-import { useStepsStore } from '../stores/steps'
 
-const store = useStepsStore()
+const store = useFormStore()
 
-const handleNextStep = () => {
+const {
+  errorMessages,
+  validateForm,
+  nameIsValid,
+  emailIsValid,
+  phoneIsValid,
+  nameErrorMessage,
+  emailErrorMessage,
+  phoneErrorMessage,
+} = useValidation()
+
+const formErrorsRef = ref(null)
+
+const handleNextStep = async () => {
+  if (store.currentStep === 1) {
+    const isInvalid = validateForm(store.formData)
+
+    if (isInvalid) {
+      await nextTick()
+      formErrorsRef.value.$el.focus()
+      return
+    }
+  }
+
+  errorMessages.value = []
+
+  store.updateFormData(store.formData)
   store.$patch({ currentStep: store.currentStep + 1 })
 }
 
@@ -22,8 +50,15 @@ const handlePreviousStep = () => {
 
 <template>
   <div class="form-steps">
-    <div class="wrapper">
-      <!-- <FormErrors :errors="['Error number one', 'This other error']" /> -->
+    <div
+      class="wrapper"
+      :class="{ centered: store.currentStep > store.totalSteps }"
+    >
+      <FormErrors
+        v-if="errorMessages.length > 0"
+        :errors="errorMessages"
+        ref="formErrorsRef"
+      />
       <template v-if="store.currentStep === 1">
         <FormStep
           title="Personal info"
@@ -31,24 +66,31 @@ const handlePreviousStep = () => {
         >
           <div class="fields">
             <InputField
+              id="name"
+              type="text"
               label="Name"
-              id="name"
               placeholder="e.g. Stephen King"
-              error-message="Please provide a name."
+              :is-invalid="nameIsValid"
+              :error-message="nameErrorMessage"
+              v-model="store.formData.name"
             />
             <InputField
-              label="Email Address"
-              type="email"
               id="email"
+              type="email"
+              label="Email Address"
               placeholder="e.g. stephenking@lorem.com"
-              error-message="Please provide an email address, for example stephenking@lorem.com."
+              :is-invalid="emailIsValid"
+              :error-message="emailErrorMessage"
+              v-model="store.formData.email"
             />
             <InputField
-              label="Phone Number"
+              id="phone"
               type="tel"
-              id="name"
+              label="Phone Number"
               placeholder="e.g. +1 234 567 890"
-              error-message="Please provide a phone number, for example +1 234 567 890."
+              :is-invalid="phoneIsValid"
+              :error-message="phoneErrorMessage"
+              v-model="store.formData.phone"
             />
           </div>
         </FormStep>
@@ -61,32 +103,34 @@ const handlePreviousStep = () => {
           <fieldset class="radio-buttons">
             <legend class="sr-only">Choose a plan</legend>
             <RadioButtonCard
-              icon="arcade"
               id="arcade"
-              description="Arcade for $9 a month"
               name="plan"
-              price="$9/mo"
+              value="arcade"
+              icon="arcade"
               title="Arcade"
-              value="$9/mo"
-              checked="true"
+              monthly-price="$9/mo"
+              yearly-price="$90/yr"
+              v-model="store.formData.plan"
             />
             <RadioButtonCard
-              icon="advanced"
               id="advanced"
-              description="Advanced for $12 a month"
               name="plan"
-              price="$12/mo"
-              title="Advanced"
               value="advanced"
+              icon="advanced"
+              title="Advanced"
+              monthly-price="$12/mo"
+              yearly-price="$120/yr"
+              v-model="store.formData.plan"
             />
             <RadioButtonCard
-              icon="pro"
               id="pro"
-              description="Pro for $15 a month"
               name="plan"
-              price="$15/mo"
-              title="Pro"
               value="pro"
+              icon="pro"
+              title="Pro"
+              monthly-price="$15/mo"
+              yearly-price="$150/yr"
+              v-model="store.formData.plan"
             />
           </fieldset>
           <ToggleButton />
@@ -99,9 +143,33 @@ const handlePreviousStep = () => {
         >
           <fieldset class="checkboxes">
             <legend class="sr-only">Choose your add-ons</legend>
-            <CheckboxCard id="online" />
-            <CheckboxCard id="storage" />
-            <CheckboxCard id="profile" />
+            <CheckboxCard
+              id="online"
+              namae="addon"
+              value="online"
+              title="Online service"
+              summary="Access to multiplayer games"
+              monthly-price="+$1/mo"
+              yearly-price="+$10/yr"
+            />
+            <CheckboxCard
+              id="storage"
+              namae="addon"
+              value="storage"
+              title="Larger storage"
+              summary="Extra 1TB of cloud save"
+              monthly-price="+$2/mo"
+              yearly-price="+$20/yr"
+            />
+            <CheckboxCard
+              id="profile"
+              namae="addon"
+              value="profile"
+              title="Customizable profile"
+              summary="Custom theme on your profile"
+              monthly-price="+$2/mo"
+              yearly-price="+$20/yr"
+            />
           </fieldset>
         </FormStep>
       </template>
@@ -115,11 +183,17 @@ const handlePreviousStep = () => {
       </template>
       <template v-if="store.currentStep > store.totalSteps">
         <FormStep
-          title="Thank you!"
           description="Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com."
           :last-step="true"
         >
-          <button @click="store.$patch({ currentStep: 1 })">Reset form</button>
+          <template #title>
+            <h2>Thank you {{ store.formData.name }}!</h2>
+          </template>
+          <FormButton
+            variant="tertiary"
+            @click="store.resetForm"
+            >Reset form</FormButton
+          >
         </FormStep>
       </template>
     </div>
@@ -202,6 +276,10 @@ fieldset {
   align-items: center;
   padding-block-start: var(--space-l);
 
+  button:last-of-type {
+    margin-inline-start: auto;
+  }
+
   @include breakpoint(medium) {
     position: absolute;
     block-size: var(--mobile-button-height);
@@ -210,5 +288,11 @@ fieldset {
     padding: var(--space-xl) var(--space-s);
     background-color: var(--neutral-white);
   }
+}
+
+.centered {
+  display: grid;
+  place-items: center;
+  block-size: 100%;
 }
 </style>
