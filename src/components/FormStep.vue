@@ -28,7 +28,7 @@ const props = defineProps({
         :src="`/multi-step-form/icon-thank-you.svg`"
         alt=""
       />
-      <h2>{{ title }}</h2>
+      <slot name="title" />
       <p>{{ description }}</p>
       <slot />
     </div>
