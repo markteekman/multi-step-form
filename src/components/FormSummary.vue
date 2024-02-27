@@ -1,26 +1,60 @@
+<script setup>
+import { computed } from 'vue'
+import { useFormStore } from '../stores/form'
+
+const store = useFormStore()
+
+function formatAddonPrice(addonKey) {
+  const price =
+    store.billingCycle === 'monthly'
+      ? store.addonDetails[addonKey].monthlyPrice
+      : store.addonDetails[addonKey].yearlyPrice
+  return store.billingCycle === 'monthly' ? `$${price}/mo` : `$${price}/yr`
+}
+
+const billingCyclePrice = computed(() => {
+  const selectedPlanDetails = store.planDetails[store.formData.plan]
+  const price = store.billingCycle === 'monthly' ? selectedPlanDetails.monthlyPrice : selectedPlanDetails.yearlyPrice
+  return `$${price}/${store.billingCycle === 'monthly' ? 'mo' : 'yr'}`
+})
+
+const billingCycleTotal = computed(() => {
+  return store.billingCycle === 'monthly' ? 'month' : 'year'
+})
+
+const totalPrice = computed(() => {
+  if (store.billingCycle === 'monthly') {
+    return `$${store.totalPrice}/mo`
+  } else {
+    return `$${store.totalPrice}/yr`
+  }
+})
+</script>
+
 <template>
   <div class="form-summary">
     <div class="form-summary__receipt">
       <div class="form-summary__plan">
         <p>
-          Arcade (Monthly) <span><a href="#">Change</a></span>
+          {{ store.planDetails[store.formData.plan].title }}
+          <button @click="store.$patch({ currentStep: 2 })">Change</button>
         </p>
-        <p>$9/mo</p>
+        <p>{{ billingCyclePrice }}</p>
       </div>
       <div class="form-summary__addons">
-        <div class="form-summary__addon">
-          <p>Online service</p>
-          <p>+$1/mo</p>
-        </div>
-        <div class="form-summary__addon">
-          <p>Larger storage</p>
-          <p>+$2/mo</p>
+        <div
+          class="form-summary__addon"
+          v-for="addonKey in store.sortedAddons"
+          :key="addonKey"
+        >
+          <p>{{ store.addonDetails[addonKey].title }}</p>
+          <p>{{ formatAddonPrice(addonKey) }}</p>
         </div>
       </div>
     </div>
     <div class="form-summary__total">
-      <p>Total (per month)</p>
-      <p>$12/mo</p>
+      <p>Total (per {{ billingCycleTotal }})</p>
+      <p>{{ totalPrice }}</p>
     </div>
   </div>
 </template>
@@ -61,15 +95,25 @@
     > p {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3xs);
     }
 
     p {
       font-weight: bold;
     }
 
-    a {
+    button {
+      padding: 0;
       color: var(--neutral-text-gray);
       font-weight: normal;
+      border: none;
+      text-decoration: underline;
+
+      &:hover,
+      &:focus-visible {
+        text-decoration: none;
+      }
     }
   }
 
