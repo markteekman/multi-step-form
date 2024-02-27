@@ -1,7 +1,7 @@
 <script setup>
-import { useStepsStore } from '../stores/steps'
+import { useFormStore } from '../stores/form'
 
-const store = useStepsStore()
+const store = useFormStore()
 
 const steps = [
   { id: 1, name: 'Your info' },

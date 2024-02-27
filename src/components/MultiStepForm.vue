@@ -19,9 +19,9 @@ import FormSteps from './FormSteps.vue'
 
   position: relative;
   display: grid;
-  grid-template-columns: 275px 1fr;
+  grid-template-columns: 275px 650px;
   max-inline-size: min(100%, 1024px);
-  min-block-size: 640px;
+  min-block-size: 715px;
   margin: var(--space-s);
   padding: var(--space-s) 0 var(--space-s) var(--space-s);
   background-color: var(--neutral-white);
