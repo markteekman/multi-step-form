@@ -25,7 +25,8 @@
   --font-body: 'Ubuntu', sans-serif;
 
   // font sizes
-  --font-size--2: clamp(0.6944rem, 0.6855rem + 0.0446vw, 0.72rem);
+  --font-size--3: clamp(0.64rem, 0.6rem + 0.09vw, 0.72rem);
+  --font-size--2: clamp(0.8rem, 0.75rem + 0.09vw, 0.9rem);
   --font-size--1: clamp(0.9rem, 0.85rem + 0.12vw, 1rem);
   --font-size-0: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
   --font-size-1: clamp(1.2rem, 1.1283rem + 0.3587vw, 1.4063rem);
