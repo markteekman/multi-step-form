@@ -1,10 +1,10 @@
 <script setup>
+import { computed } from 'vue'
+import { useFormStore } from '../stores/form'
+
+const store = useFormStore()
+
 const props = defineProps({
-  description: {
-    type: String,
-    required: true,
-    default: 'Online service - Access to mutliplayer games for $1 a month',
-  },
   id: {
     type: String,
     required: true,
@@ -15,7 +15,7 @@ const props = defineProps({
     required: true,
     default: 'addon',
   },
-  price: {
+  monthlyPrice: {
     type: String,
     required: true,
     default: '+$1/mo',
@@ -30,6 +30,40 @@ const props = defineProps({
     required: true,
     default: 'Access to mutliplayer games',
   },
+  value: {
+    type: String,
+    required: true,
+    default: 'online',
+  },
+  yearlyPrice: {
+    type: String,
+    required: true,
+    default: '+$10/yr',
+  },
+})
+
+const isChecked = computed({
+  get: () => store.formData.addons.includes(props.value),
+  set: (newValue) => {
+    const currentIndex = store.formData.addons.indexOf(props.value)
+    if (newValue && currentIndex === -1) {
+      store.formData.addons = [...store.formData.addons, props.value]
+    } else if (!newValue && currentIndex !== -1) {
+      store.formData.addons = store.formData.addons.filter((addon) => addon !== props.value)
+    }
+  },
+})
+
+const currentPrice = computed(() => {
+  return store.billingCycle === 'monthly' ? props.monthlyPrice : props.yearlyPrice
+})
+
+const dynamicDescription = computed(() => {
+  if (store.billingCycle === 'monthly') {
+    return `${props.title} - ${props.summary} for ${props.monthlyPrice}`
+  } else {
+    return `${props.title} - ${props.summary} for ${props.yearlyPrice}`
+  }
 })
 </script>
 
@@ -38,12 +72,16 @@ const props = defineProps({
     class="checkbox-card"
     :for="id"
   >
-    <span class="sr-only">{{ description }}</span>
-    <span class="checkbox-card__content">
+    <span class="sr-only">{{ dynamicDescription }}</span>
+    <span
+      class="checkbox-card__content"
+      aria-hidden="true"
+    >
       <input
         type="checkbox"
         :id="id"
         :name="name"
+        v-model="isChecked"
       />
       <div class="checkbox-card__details">
         <span>{{ title }}</span>
@@ -51,7 +89,7 @@ const props = defineProps({
       </div>
     </span>
     <div class="checkbox-card__price">
-      <span>{{ price }}</span>
+      <span>{{ currentPrice }}</span>
     </div>
   </label>
 </template>
