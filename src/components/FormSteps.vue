@@ -30,7 +30,7 @@ const handleNextStep = async () => {
   if (store.currentStep === 1) {
     const isInvalid = validateForm(store.formData)
 
-    if (isInvalid) {
+    if (isInvalid.length > 0) {
       await nextTick()
       formErrorsRef.value.$el.focus()
       return
