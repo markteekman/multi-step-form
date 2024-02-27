@@ -13,7 +13,7 @@ const props = defineProps({
     required: false,
     default: 'primary',
     validator: (value) => {
-      return ['primary', 'secondary'].includes(value)
+      return ['primary', 'secondary', 'tertiary'].includes(value)
     },
   },
 })
@@ -65,6 +65,16 @@ button {
     &:is(:hover, :focus-visible) {
       rotate: calc(var(--rotate) * -1);
       translate: calc(var(--translate) * -1);
+    }
+  }
+
+  &.tertiary {
+    color: var(--neutral-white);
+    background-color: var(--error-color-dark);
+    border-color: var(--error-color-dark);
+
+    &:is(:hover, :focus-visible) {
+      translate: 0 calc(var(--translate) * -1);
     }
   }
 }
