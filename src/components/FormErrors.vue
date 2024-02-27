@@ -12,6 +12,7 @@ const props = defineProps({
   <div
     class="error"
     role="alert"
+    tabindex="-1"
   >
     <div class="error__icon">
       <svg
@@ -31,16 +32,19 @@ const props = defineProps({
         />
       </svg>
     </div>
-    <p>
-      There are <strong>{{ errors.length }}</strong> errors in the form. Please fix them.
+    <p v-if="errors.length === 1">
+      There is <strong>{{ errors.length }}</strong> error in the form.
+    </p>
+    <p v-else>
+      There are <strong>{{ errors.length }}</strong> errors in the form.
     </p>
     <ol class="error__list">
       <li
         v-for="error in errors"
-        :key="error"
+        :key="error.id"
       >
-        <a href="#">
-          {{ error }}
+        <a :href="`#${error.id}`">
+          {{ error.message }}
         </a>
       </li>
     </ol>
@@ -69,9 +73,10 @@ const props = defineProps({
   &__list {
     padding: var(--space-s) 0 0 var(--space-s);
     list-style: decimal;
+    font-size: var(--font-size--1);
 
     li:not(:last-child) {
-      margin-bottom: var(--space-3xs);
+      margin-bottom: var(--space-2xs);
     }
   }
 }
