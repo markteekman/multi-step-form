@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   id: {
     type: String,
@@ -8,7 +10,7 @@ const props = defineProps({
   isInvalid: {
     type: Boolean,
     required: false,
-    default: true,
+    default: false,
   },
   errorMessage: {
     type: String,
@@ -19,6 +21,11 @@ const props = defineProps({
     type: String,
     required: true,
     default: 'Name',
+  },
+  modelValue: {
+    type: String,
+    required: true,
+    default: '',
   },
   placeholder: {
     type: String,
@@ -39,6 +46,13 @@ const props = defineProps({
     },
   },
 })
+
+const emit = defineEmits(['update:modelValue'])
+
+const inputValue = computed({
+  get: () => props.modelValue,
+  set: (newValue) => emit('update:modelValue', newValue),
+})
 </script>
 
 <template>
@@ -49,7 +63,9 @@ const props = defineProps({
       :type="type"
       :placeholder="placeholder"
       :aria-required="required"
-      :aria-invalid="isInvalid"
+      :aria-invalid="isInvalid.toString()"
+      :value="inputValue"
+      @input="inputValue = $event.target.value"
     />
     <span
       v-if="isInvalid"
@@ -116,7 +132,7 @@ span {
   gap: var(--space-3xs);
   margin-block-start: calc(var(--space-3xs) * -1);
   color: var(--error-color-dark);
-  font-size: var(--font-size--2);
+  font-size: var(--font-size--3);
   line-height: var(--font-size-0);
 
   @include breakpoint(medium) {
