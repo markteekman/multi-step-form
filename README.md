@@ -38,11 +38,11 @@ To challenge myself I tried building this project with [Astro](https://astro.bui
 
 ### Screenshot
 
-👉 ADD CONTENT HERE.
+![social-preview-image](https://github.com/markteekman/multi-step-form/assets/3909046/de3a5ba1-de5d-42cf-b1ff-a2f2ba538b08)
 
 ### Links
 
-- [Solution URL]()
+- [Solution URL](https://www.frontendmentor.io/solutions/vue-3-pinia-astro-wcag-22-accessibility-mNmVrT8te7)
 - [Live Site URL](https://markteekman.github.io/multi-step-form/)
 
 ## My process
