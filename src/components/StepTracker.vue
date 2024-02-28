@@ -115,7 +115,6 @@ li {
   }
 
   span:first-of-type {
-    color: var(--primary-pastel-blue);
     font-size: var(--font-size--2);
     line-height: var(--font-size--1);
   }

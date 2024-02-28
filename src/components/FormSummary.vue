@@ -37,7 +37,7 @@ const totalPrice = computed(() => {
       <div class="form-summary__plan">
         <p>
           {{ store.planDetails[store.formData.plan].title }}
-          <button @click="store.$patch({ currentStep: 2 })">Change</button>
+          <button @click="store.$patch({ currentStep: 2 })">Change your plan</button>
         </p>
         <p>{{ billingCyclePrice }}</p>
       </div>

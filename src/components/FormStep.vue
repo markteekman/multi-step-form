@@ -1,4 +1,8 @@
 <script setup>
+import { useFormStore } from '../stores/form'
+
+const store = useFormStore()
+
 const props = defineProps({
   title: {
     type: String,
@@ -19,7 +23,13 @@ const props = defineProps({
 <template>
   <div :class="{ 'form-step': true, last: lastStep }">
     <template v-if="!lastStep">
-      <h2>{{ title }}</h2>
+      <h2
+        aria-live="polite"
+        tabindex="-1"
+      >
+        <span class="sr-only"> Step {{ store.currentStep }} </span>
+        {{ title }}
+      </h2>
       <p>{{ description }}</p>
       <slot />
     </template>

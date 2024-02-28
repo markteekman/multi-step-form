@@ -6,10 +6,10 @@ import ConsoleFiglet from '../components/ConsoleFiglet.astro'
 import ModalDialog from '../components/ModalDialog.astro'
 
 const {
-  title = 'Astro',
-  description = 'A starter project with accessibility features using Astro static site builder. Contains accessible landmarks, skip links, a dark mode color scheme, better focus outline and keyboard menu navigation.',
+  title = 'Multi Step Form',
+  description = 'Frontend Mentor challenge Multi-step form using Astro, Vue 3, Pinia and WCAG best practises such as error handeling and screen reader feedback.',
   url = 'https://markteekman.github.io/multi-step-form/',
-  image = '/social-preview-image.png',
+  image = 'social-preview-image.png',
   author = 'Mark Teekman',
 } = Astro.props
 ---
@@ -33,7 +33,7 @@ const {
     <link
       rel="icon"
       type="image/svg+xml"
-      href="multi-step-form/favicon.svg"
+      href="/multi-step-form/favicon.svg"
     />
 
     <SiteMeta
@@ -50,7 +50,7 @@ const {
         place-items: center;
         min-block-size: 100vh;
 
-        @media (max-width: 48rem) {
+        @media (max-width: 61rem) {
           display: block;
         }
       }
@@ -81,9 +81,15 @@ const {
     </div>
     <ModalDialog
       triggerId="modal-trigger"
-      title="Modal 1"
+      title="Accessibility notice"
     >
-      <p>Why hello, I be the <strong>first</strong> Modal.</p>
+      <p>
+        I've done my best to make this form as accessible as possible by using focus management, error handling and
+        screen reader feedback. However I'm always learning new things and I'm open to feedback. If you have any
+        suggestions or if you find any issues, please let me know by submitting an issue at the <a
+          href="https://github.com/markteekman/multi-step-form/issues">GitHub repository</a
+        > for this project. Thank you! 🚀
+      </p>
     </ModalDialog>
     <ConsoleFiglet />
   </body>

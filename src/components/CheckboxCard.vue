@@ -23,7 +23,7 @@ const props = defineProps({
   title: {
     type: String,
     required: true,
-    default: 'Online srevice',
+    default: 'Online service',
   },
   summary: {
     type: String,

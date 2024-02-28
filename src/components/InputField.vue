@@ -35,7 +35,7 @@ const props = defineProps({
   required: {
     type: Boolean,
     required: false,
-    default: false,
+    default: true,
   },
   type: {
     type: String,
@@ -64,10 +64,12 @@ const inputValue = computed({
       :placeholder="placeholder"
       :aria-required="required"
       :aria-invalid="isInvalid.toString()"
+      :aria-describedby="`input-field__error-${id}`"
       :value="inputValue"
       @input="inputValue = $event.target.value"
     />
     <span
+      :id="`input-field__error-${id}`"
       v-if="isInvalid"
       class="input-field__error"
     >

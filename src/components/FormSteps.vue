@@ -26,6 +26,12 @@ const {
 
 const formErrorsRef = ref(null)
 
+const focusOnHeading = async () => {
+  await nextTick()
+  const nextStepTitle = document.querySelector('.form-step h2')
+  nextStepTitle.focus()
+}
+
 const handleNextStep = async () => {
   if (store.currentStep === 1) {
     const isInvalid = validateForm(store.formData)
@@ -41,10 +47,12 @@ const handleNextStep = async () => {
 
   store.updateFormData(store.formData)
   store.$patch({ currentStep: store.currentStep + 1 })
+  focusOnHeading()
 }
 
 const handlePreviousStep = () => {
   store.$patch({ currentStep: store.currentStep - 1 })
+  focusOnHeading()
 }
 </script>
 
@@ -187,7 +195,12 @@ const handlePreviousStep = () => {
           :last-step="true"
         >
           <template #title>
-            <h2>Thank you {{ store.formData.name }}!</h2>
+            <h2
+              aria-live="polite"
+              tabindex="-1"
+            >
+              Thank you {{ store.formData.name }}!
+            </h2>
           </template>
           <FormButton
             variant="tertiary"
