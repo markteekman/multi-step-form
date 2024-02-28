@@ -64,13 +64,13 @@ const inputValue = computed({
       :placeholder="placeholder"
       :aria-required="required"
       :aria-invalid="isInvalid.toString()"
-      :aria-describedby="`input-field__error-${id}`"
       :value="inputValue"
+      v-bind="isInvalid ? { 'aria-describedby': `input-field__error-${id}` } : {}"
       @input="inputValue = $event.target.value"
     />
     <span
-      :id="`input-field__error-${id}`"
       v-if="isInvalid"
+      :id="`input-field__error-${id}`"
       class="input-field__error"
     >
       <svg
