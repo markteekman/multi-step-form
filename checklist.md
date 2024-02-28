@@ -1,8 +1,8 @@
-- [ ] Add design files
-- [ ] Add index content
-- [ ] Add images
-- [ ] Add and set styleguide
-- [ ] Update README.md
-- [ ] Update Open Graph data
-- [ ] Change URL in astro config and default layout (favicon, social image, title, etc.)
-- [ ] Activate GitHub Pages
+- [x] Add design files
+- [x] Add index content
+- [x] Add images
+- [x] Add and set styleguide
+- [x] Update README.md
+- [x] Update Open Graph data
+- [x] Change URL in astro config and default layout (favicon, social image, title, etc.)
+- [x] Activate GitHub Pages
