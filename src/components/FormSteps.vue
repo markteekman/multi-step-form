@@ -78,6 +78,7 @@ const handlePreviousStep = () => {
               type="text"
               label="Name"
               placeholder="e.g. Stephen King"
+              auto-complete="name"
               :is-invalid="nameIsValid"
               :error-message="nameErrorMessage"
               v-model="store.formData.name"
@@ -87,6 +88,7 @@ const handlePreviousStep = () => {
               type="email"
               label="Email Address"
               placeholder="e.g. stephenking@lorem.com"
+              auto-complete="email"
               :is-invalid="emailIsValid"
               :error-message="emailErrorMessage"
               v-model="store.formData.email"
@@ -96,6 +98,7 @@ const handlePreviousStep = () => {
               type="tel"
               label="Phone Number"
               placeholder="e.g. +1 234 567 890"
+              auto-complete="tel"
               :is-invalid="phoneIsValid"
               :error-message="phoneErrorMessage"
               v-model="store.formData.phone"
@@ -248,7 +251,7 @@ const handlePreviousStep = () => {
   flex-direction: column;
   justify-content: space-between;
   padding-block: var(--space-l);
-  padding-inline: var(--space-3xl);
+  padding-inline: var(--space-2xl);
 
   @include breakpoint(large) {
     padding-inline: var(--space-xl);

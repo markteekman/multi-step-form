@@ -2,6 +2,11 @@
 import { computed } from 'vue'
 
 const props = defineProps({
+  autoComplete: {
+    type: String,
+    required: false,
+    default: 'off',
+  },
   id: {
     type: String,
     required: true,
@@ -62,6 +67,7 @@ const inputValue = computed({
       :id="id"
       :type="type"
       :placeholder="placeholder"
+      :autocomplete="autoComplete"
       :aria-required="required"
       :aria-invalid="isInvalid.toString()"
       :value="inputValue"
